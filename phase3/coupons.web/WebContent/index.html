@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Coupons System Demo</title>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript">
+var couponsApp = angular.module('couponsApp', []);
+couponsApp.controller('couponsController', function($scope, $http) {
+	$scope.infoMessage = "";
+	$scope.errorMessage = "";
+	
+	$scope.couponsGet = function(url){
+		$http.get(url)
+			.then(
+				function(response){
+					$scope.infoMessage = response.data.message;
+					$scope.errorMessage = "";
+				}, 
+				function(response){
+					$scope.infoMessage = "";
+					$scope.errorMessage = "Error while invoking call to server. error code: " + response.status;
+				}
+			);
+	}
+});
+
+</script>
+</head>
+<body>
+<h1>Coupons System Demo</h1>
+<div id="main" data-ng-app="couponsApp" data-ng-controller="couponsController">
+	<ul>
+		<li><h2>Admin Operation</h2>
+			<ul>
+				<li><a href="" data-ng-click="couponsGet('rest/admin/login/admin/admin')">login as admin</a></li>
+		<li><a href="rest/admin/getAllIncome">Get All Income</a></li>
+		<li><a href="rest/admin/getAllIncomeCompany/1">Get All Income By Company</a></li>
+		<li><a href="rest/admin/getAllIncomeCustoemr/2">Get All Income By Customer</a></li>
+				
+				<li><a href="" data-ng-click="couponsGet('rest/admin/logout')">logout</a></li>
+			</ul>
+		</li>	
+	</ul>
+
+	<ul>
+		<li><h2>Company Operation</h2>
+			<ul>
+				<li><a href="" data-ng-click="couponsGet('rest/company/login/company1/company1')">login as company1</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/login/company2/company2')">login as company2</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/coupon/create/coupon1')">create coupon1</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/coupon/create/coupon2')">create coupon2</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/coupon/update/coupon1')">update coupon1</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/coupon/update/coupon2')">update coupon2</a></li>
+				<li><a href="rest/company/getAllIncome">Get All Income</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/company/logout')">logout</a></li>
+			</ul>
+		</li>	
+	</ul>
+
+	<ul>
+		<li><h2>Customer Operation</h2>
+			<ul>
+				<li><a href="" data-ng-click="couponsGet('rest/customer/login/customer1/customer1')">login as customer1</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/customer/login/customer2/customer2')">login as customer2</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/customer/purchase/coupon1/12.88')">purchase coupon1 ($12.88)</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/customer/purchase/coupon2/0.99')">purchase coupon2 ($0.99)</a></li>
+				<li><a href="" data-ng-click="couponsGet('rest/customer/logout')">logout</a></li>
+			</ul>
+		</li>	
+	</ul>
+	
+	<div style="color:blue;" data-ng-bind="infoMessage">general information</div>
+	<div style="color:red;" data-ng-bind="errorMessage">error messages</div>	
+</div>
+</body>
+</html>
